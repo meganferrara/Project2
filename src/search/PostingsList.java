@@ -11,7 +11,11 @@ package search;
  *
  */
 public class PostingsList{
+	private LinkedList<Integer> postingslist;
 	
+	public PostingsList() {
+		postingslist = new LinkedList<Integer>();
+	}
 	
 	/**
 	 * add a document ID to this posting list
@@ -19,6 +23,9 @@ public class PostingsList{
 	 * @param docID the docID of the document being added
 	 */
 	public void addDoc(int docID){
+		Integer docIDInt = docID;
+		
+		
 	}
 	
 	/**
