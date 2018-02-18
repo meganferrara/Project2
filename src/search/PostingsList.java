@@ -11,6 +11,8 @@ package search;
  *
  */
 public class PostingsList{
+	
+	
 	/**
 	 * add a document ID to this posting list
 	 *
