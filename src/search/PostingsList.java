@@ -25,6 +25,9 @@ public class PostingsList{
 	public void addDoc(int docID){
 		Integer docIDInt = docID;
 		
+		if(postingslist.getFirst() == null) {
+			postingslist.insertFirst(docIDInt);
+		}
 		
 	}
 	
