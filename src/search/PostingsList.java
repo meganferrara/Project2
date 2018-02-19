@@ -11,10 +11,12 @@ package search;
  *
  */
 public class PostingsList{
-	private LinkedList<Integer> postingslist;
+	//private LinkedList<Integer> postingslist;
+	private SinglyLinkedList<Integer> postingslist;
 	
 	public PostingsList() {
-		postingslist = new LinkedList<Integer>();
+		//postingslist = new LinkedList<Integer>();
+		postingslist = new SinglyLinkedList<Integer>();
 	}
 	
 	/**
@@ -23,10 +25,15 @@ public class PostingsList{
 	 * @param docID the docID of the document being added
 	 */
 	public void addDoc(int docID){
-		Integer docIDInt = docID;
+		Integer docIDInt = new Integer(docID);
+		//LinkedListNode<Integer> postingsListNode = new LinkedListNode<Integer>();
+		SinglyLinkedListNode<Integer> postingsListNode = new SinglyLinkedListNode<Integer>();
+		postingsListNode.setData(docIDInt);
 		
-		if(postingslist.getFirst() == null) {
-			postingslist.insertFirst(docIDInt);
+		if(postingslist.getFirstNode() == null) {
+			postingsListNode = postingslist.getFirstNode();
+		}else {
+			//postingslist.insertLast(data);
 		}
 		
 	}
@@ -42,6 +49,16 @@ public class PostingsList{
 	 * @return not of the posting list
 	 */
 	public static PostingsList not(PostingsList list, int maxDocID){
+		PostingsList notPL = new PostingsList();
+		int[] notIDsList = list.getIDs();
+		int notIDsMax = notIDsList.length;
+//		int notListPointer = 0;//curr
+//		int listPointer = 1;//next
+//		while(notListPointer<=maxDocID && listPointer<=maxDocID) {
+//			if()
+//		}
+		
+		
 		return null;
 	}
 	
@@ -73,7 +90,7 @@ public class PostingsList{
 	 * @return the number of docIDs for this posting list
 	 */
 	public int size(){
-		return -1;
+		return postingslist.size();
 	}
 	
 	/**

@@ -1,61 +1,27 @@
 package search;
-
 /**
- * LinkedListNode class consisting of getters and setters
- * @author Guest
- * @param LinkedListNode<T>
+ * This is a common interface for implementing nodes in linked lists (both single and doubly linked).
+ * A LinkedListNode has a value that can be get and set.
+ * 
+ * @author eitan
+ *
+ * @param <T>
  */
-public class LinkedListNode <T>
-{
-	// data is of type T
-	private T data;
+public interface LinkedListNode<T> {
 	
-	// next is of type LinkedListNode because 
-	// next will be used to continue to the adjacent node
-	public LinkedListNode<T> next;
 	
 	/**
-	 * Get the data stored at this node.
+	 * Returns the value stored in the LinkedListNode.
+	 * 
+	 * @return the value stored in the LinkedListNode
 	 */
-	public T getData()
-	{
-		// returns the data stored
-		return data;
-	}
+	public T getValue();
 	
 	/**
-	 * Set the data stored at this node.
+	 * Sets the value of the node to the specified value.
+	 * 
+	 * @param value
 	 */
-	public void setData( T data )
-	{
-		// sets the data at this node
-		this.data = data;
-	}
-	 
-	/**
-	 * Get (pointer to) next node.
-	 */
-	public LinkedListNode<T> getNext()
-	{
-		// returns next because it is pointing to the next node
-		return next;
-	}
-	
-	/**
-	 * Set the next pointer to passed node.
-	 */
-	public void setNext( LinkedListNode<T> node )
-	{
-		// the next pointer is set to the node parameter
-		this.next = node;
-	}
-	 
-	/**
-	 * Returns a String representation of this node.
-	 */
-	public String toString()
-	{
-		// returns the data in string form of node
-		return data.toString();
-	}
+	public void setValue(T value);
+		
 }
