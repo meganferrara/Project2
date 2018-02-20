@@ -1,72 +1,96 @@
 package search;
+
 /**
- * Implementation of Singly Linked Lists.
+ * Implementation of Singly Linked Lists. We make it of type value so that put
+ * Integer Values into the Postings list in the PostingsList class
  * 
- * @author eitan
+ * @author Megan Ferrara
  *
- * @param <T>
+ * @param <V>
+ *            value
  */
 
-public class SinglyLinkedList<T> implements LinkedList<T> {
+public class SinglyLinkedList<V> {
 	protected int count = 0;
-	protected SinglyLinkedListNode<T> head;
+	protected Node<V> head;
+	protected Node<V> tail;
 
-	/* (non-Javadoc)
-	 * @see LinkedList#getFirst()
+	/**
+	 * GetFirst gets the head of the singly linked list
+	 * 
+	 * @return the value of the head
 	 */
-	@Override
-	public T getFirst() {
-		return head.getValue();
+	public V getFirst() {
+		return head.getElement();
 	}
-	
+
+	/**
+	 * GetFirstNode returns the head of the singly linked list
+	 * @return head
+	 */
+	public Node<V> getFirstNode(){
+		return head;
+	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see LinkedList#getLast()
+	 */
+	/**
+	 * GetLast gets the last nodes value in a singly linked list
+	 * 
+	 * @return last nodes value
+	 */
+	public V getLast() {
+		return getLastNode().getElement();
+	}
+
 	/**
 	 * Returns the last node in the list.
 	 * 
 	 * @return the last node in the list.
 	 */
-	protected SinglyLinkedListNode<T> getLastNode() {
-		SinglyLinkedListNode<T> curNode = head;
-		while(curNode.getNext() != null) {
+	protected Node<V> getLastNode() {
+		Node<V> curNode = head;
+		while (curNode.getNext() != null) {
 			curNode = curNode.getNext();
 		}
 		return curNode;
-		
+
 	}
 
 	/**
 	 * Returns the node at the specified position in this list.
+	 * 
 	 * @param index
 	 * @return the node at the specified position in this list.
 	 */
-	protected SinglyLinkedListNode<T> getNode(int index)  {
-		
-		SinglyLinkedListNode<T> curNode = head;
-		while(index > 0) { 
+	protected Node<V> getNode(int index) {
+
+		Node<V> curNode = head;
+		while (index > 0) {
 			curNode = curNode.getNext();
 			index--;
 		}
 		return curNode;
-		
+
 	}
 
+	// *************I am unsure which methods we need out of these*************//
+	//add(V value)
+	//add(int index, V value)
+	//insertFirst(V value)
+	//insertLast(V value)
 	
-	/* (non-Javadoc)
-	 * @see LinkedList#getLast()
+	/**
+	 * Add(V value) adds a value to the end of a list
+	 * 
+	 * @param value
 	 */
-	@Override
-	public T getLast() {
-		return getLastNode().getValue();
-	}
-	
-	
-
-	/* (non-Javadoc)
-	 * @see LinkedList#add(java.lang.Object)
-	 */
-	@Override
-	public void add(T value) {
-		SinglyLinkedListNode<T> newNode = new SinglyLinkedListNode<T>(value);
-		if(head == null) {
+	public void add(V value) {
+		Node<V> newNode = new Node<V>();
+		newNode.setElement(value);
+		if (head == null) {
 			head = newNode;
 		} else {
 			getLastNode().setNext(newNode);
@@ -74,79 +98,125 @@ public class SinglyLinkedList<T> implements LinkedList<T> {
 		count++;
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#add(int, java.lang.Object)
+	/**
+	 * Add(int index, V value) adds a element to a specified position
+	 * 
+	 * @param index
+	 * @param value
 	 */
-	@Override
-	public void add(int index, T value)  {
-		if(index == 0) {
-			SinglyLinkedListNode<T> oldHead = head;
-			head = new SinglyLinkedListNode<T>(value);
+	public void add(int index, V value) {
+		if (index == 0) {
+			Node<V> oldHead = head;
+			head = new Node<V>();
+			head.setElement(value);
 			head.setNext(oldHead);
 		} else {
-			SinglyLinkedListNode<T> prevNode = getNode(index -1);
-			SinglyLinkedListNode<T> nextNode = prevNode.getNext();
-			SinglyLinkedListNode<T> newNode = new SinglyLinkedListNode<T>(value);
+			Node<V> prevNode = getNode(index - 1);
+			Node<V> nextNode = prevNode.getNext();
+			Node<V> newNode = new Node<V>();
+			newNode.setElement(value);
 			prevNode.setNext(newNode);
 			newNode.setNext(nextNode);
 		}
 		count++;
-
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#remove(int)
+	/**
+	 * InsertFirst inserts a new element at the beginning of the list
+	 * 
+	 * @param value
 	 */
-	@Override
-	public T remove(int index) {
-		SinglyLinkedListNode<T> removedNode = null;
-		if(index == 0) {
-				removedNode = head;
-				head = head.getNext();
+	public void insertFirst(V value) {
+		if (head == null) {
+			Node<V> newNode = new Node<V>(value, null);
+			head = newNode;
+			// tail = head;
+
 		} else {
-			SinglyLinkedListNode<T> prevNode = getNode(index -1);
+			Node<V> oldHead = head;
+			head = new Node<V>();
+			head.setElement(value);
+			head.setNext(oldHead);
+		}
+		count++;
+	}
+
+	/**
+	 * InsertLast inserts a passed in value at the end of the list
+	 * 
+	 * @param value
+	 */
+	public void insertLast(V value) {
+		Node<V> newNode = new Node<V>(value, null);
+		count++;
+		if (head == null) {
+			head = newNode;
+			tail = head;
+		} else {
+			tail.setNext(newNode);
+			tail = newNode;
+
+		}
+	}
+
+	// ******************************************************************//
+
+	/**
+	 * Remove removes a null from specified index and returns the removed node value
+	 * 
+	 * @param index
+	 * @return the removed nodes value
+	 */
+	public V remove(int index) {
+		Node<V> removedNode = null;
+		if (index == 0) {
+			removedNode = head;
+			head = head.getNext();
+		} else {
+			Node<V> prevNode = getNode(index - 1);
 			removedNode = prevNode.getNext();
-			SinglyLinkedListNode<T> nextNode = removedNode.getNext();
+			Node<V> nextNode = removedNode.getNext();
 			prevNode.setNext(nextNode);
-		}		
+		}
 		count--;
-		return removedNode.getValue();
+		return removedNode.getElement();
 
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#size()
+	/**
+	 * Gets the size of the SinglyLinkedList
+	 * 
+	 * @return count
 	 */
-	@Override
 	public int size() {
 		return count;
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#clear()
+	/**
+	 * Clears the SinglyLinkedList
 	 */
-	@Override
 	public void clear() {
 		head = null;
 		count = 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#get(int)
+	/**
+	 * Get gets a nodes value from a specified index
+	 * 
+	 * @param i
+	 * @return the specified nodes value
 	 */
-	@Override
-	public T get(int i) {
-		return getNode(i).getValue();
+	public V get(int i) {
+		return getNode(i).getElement();
 	}
 
-	/* (non-Javadoc)
-	 * @see LinkedList#isEmpty()
+	/**
+	 * Checks to see if the SinglyLinkedList is empty
+	 * 
+	 * @return returns true or false
 	 */
-	@Override
 	public boolean isEmpty() {
 		return size() == 0;
 	}
-
-	
 
 }
