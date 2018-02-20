@@ -26,11 +26,13 @@ public class SinglyLinkedList<V> {
 
 	/**
 	 * GetFirstNode returns the head of the singly linked list
+	 * 
 	 * @return head
 	 */
-	public Node<V> getFirstNode(){
+	public Node<V> getFirstNode() {
 		return head;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -76,90 +78,64 @@ public class SinglyLinkedList<V> {
 
 	}
 
-	// *************I am unsure which methods we need out of these*************//
-	//add(V value)
-	//add(int index, V value)
-	//insertFirst(V value)
-	//insertLast(V value)
-	
 	/**
-	 * Add(V value) adds a value to the end of a list
+	 * AddFirst(Node<V> node) adds a element to the beginning of the list
 	 * 
 	 * @param value
 	 */
-	public void add(V value) {
-		Node<V> newNode = new Node<V>();
-		newNode.setElement(value);
+	public void addFirst(Node<V> node) {
 		if (head == null) {
-			head = newNode;
+			head = node;
+			// tail = head;
 		} else {
-			getLastNode().setNext(newNode);
+			Node<V> oldHead = head;
+			head = node;
+			head.setNext(oldHead);
 		}
 		count++;
 	}
 
 	/**
-	 * Add(int index, V value) adds a element to a specified position
+	 * AddLast(Node<V> node) adds an element to the end of the list
+	 * 
+	 * @param node
+	 */
+	public void addLast(Node<V> node) {
+		if (head == null) {
+			head = node;
+			tail = head;
+		} else {
+			node.setNext(null);
+			tail.setNext(node);
+			tail = node;
+		}
+		count++;
+	}
+
+	/**
+	 * AddAfterPos(int index, V value) adds a element to a specified position
 	 * 
 	 * @param index
 	 * @param value
 	 */
-	public void add(int index, V value) {
-		if (index == 0) {
-			Node<V> oldHead = head;
-			head = new Node<V>();
-			head.setElement(value);
-			head.setNext(oldHead);
-		} else {
-			Node<V> prevNode = getNode(index - 1);
-			Node<V> nextNode = prevNode.getNext();
-			Node<V> newNode = new Node<V>();
-			newNode.setElement(value);
-			prevNode.setNext(newNode);
-			newNode.setNext(nextNode);
-		}
-		count++;
-	}
-
-	/**
-	 * InsertFirst inserts a new element at the beginning of the list
-	 * 
-	 * @param value
-	 */
-	public void insertFirst(V value) {
-		if (head == null) {
-			Node<V> newNode = new Node<V>(value, null);
-			head = newNode;
-			// tail = head;
-
-		} else {
-			Node<V> oldHead = head;
-			head = new Node<V>();
-			head.setElement(value);
-			head.setNext(oldHead);
-		}
-		count++;
-	}
-
-	/**
-	 * InsertLast inserts a passed in value at the end of the list
-	 * 
-	 * @param value
-	 */
-	public void insertLast(V value) {
-		Node<V> newNode = new Node<V>(value, null);
-		count++;
-		if (head == null) {
-			head = newNode;
-			tail = head;
-		} else {
-			tail.setNext(newNode);
+	public void addAfterPos(Node<V> currNode, Node<V> newNode) {
+		if (currNode == null) {
+			// then dont do anything
+		} else if (currNode == tail) {
+			currNode.setNext(newNode);
 			tail = newNode;
+			// this.tail = newNode; //if the previous doesn't work try this
+
+		} else {
+			if (currNode.hasNext()) {
+				Node<V> oldNextNode = currNode.getNext();
+				currNode.setNext(newNode);
+				newNode.setNext(oldNextNode);
+			}
 
 		}
+		count++;
 	}
-
-	// ******************************************************************//
 
 	/**
 	 * Remove removes a null from specified index and returns the removed node value

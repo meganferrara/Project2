@@ -12,11 +12,9 @@ package search;
  *
  */
 public class PostingsList {
-	// private LinkedList<Integer> postingslist;
 	private SinglyLinkedList<Integer> postingslist;
 
 	public PostingsList() {
-		// postingslist = new LinkedList<Integer>();
 		postingslist = new SinglyLinkedList<Integer>();
 	}
 
@@ -27,18 +25,63 @@ public class PostingsList {
 	 *            the docID of the document being added
 	 */
 	public void addDoc(int docID) {
+		//Im 95% sure this is finished
 		Integer docIDInt = new Integer(docID);
+
 		Node<Integer> postingsListNode = new Node<Integer>();
+
 		postingsListNode.setElement(docIDInt);
 
 		if (postingslist.getFirstNode() == null) {
-			postingslist.insertFirst(postingsListNode);// this needs to add the postingsListNode
-		} else if (!postingslist.getFirstNode().hasNext()) {
+
+			postingslist.addFirst(postingsListNode);// this adds the postingsListNode to head
+
+		} else if (!postingslist.getFirstNode().hasNext()) { // if the head node does not have a next node
 			Node<Integer> currHead = postingslist.getFirstNode();
-			if (docIDInt.intValue() > currHead.getElement()) {
-				postingslist.insertLast(postingsListNode);// this needs to add the postingsListNode
+			// compare the current head with the postingsListNode and arrange them in sorted
+			// order
+
+			if (docIDInt.compareTo(currHead.getElement()) < 0) { // docIDInt less than currHead doc ID
+				// put docIDInt Before currHead
+				postingslist.addFirst(postingsListNode);
+
+			} else if (docIDInt.compareTo(currHead.getElement()) == 0) {// If docIDInt equal to currHead docID
+				// ignore
+
+			} else if (docIDInt.compareTo(currHead.getElement()) > 0) { // docIDInt greater than currHead doc ID
+				// put docIDInt after currHead
+				postingslist.addLast(postingsListNode);
 			}
 
+		} else { // if there is more than just the head node we add and sort in the else
+			// make nodes for head, currentNode, and previousNode all starting at the head
+			Node<Integer> head = postingslist.getFirstNode();
+			Node<Integer> currNode = head;
+			Node<Integer> prevNode = head;
+			// have a while loops that runs while the current node has next
+			while (currNode.hasNext()) {
+				// if the docIDInt is greater than the current node then implement the previous and current node 
+				if (docIDInt.compareTo(currNode.getElement()) > 0) {
+					prevNode = currNode;
+					currNode = currNode.getNext();
+				}
+				// else if the docIDInt is less than the current node put then docIDInt before the
+				// currNode break
+				else if (docIDInt.compareTo(currNode.getElement()) < 0) {
+					postingslist.addAfterPos(prevNode, postingsListNode);
+					prevNode = currNode;
+					currNode = currNode.getNext();
+					break; //this gets us out of the else if
+					
+				}else { //the else if here just so we always implement the currNode and to make sure we don't add nodes 
+					currNode = currNode.getNext(); 
+				}
+			}
+			//Since the while loop only checks up to the current node when it has a next node 
+			//This if statement will compare the docIDInt to the tail node 
+			if(docIDInt.compareTo(postingslist.getLastNode().getElement())>0) {
+				postingslist.addLast(postingsListNode);
+			}
 		}
 
 	}
@@ -56,15 +99,31 @@ public class PostingsList {
 	 * @return not of the posting list
 	 */
 	public static PostingsList not(PostingsList list, int maxDocID) {
+		//I have an idea for this method but I dont know what kinda of data structure to use for mapping
 		PostingsList notPL = new PostingsList();
-		int[] notIDsList = list.getIDs();
-		int notIDsMax = notIDsList.length;
-		// int notListPointer = 0;//curr
-		// int listPointer = 1;//next
-		// while(notListPointer<=maxDocID && listPointer<=maxDocID) {
-		// if()
-		// }
-
+		int[] notDocIDs = list.getIDs();
+		int notDocIDsMax = notDocIDs.length;
+		
+		//So that you can walk through both classes at the same time
+		int currPLPoint = 1;
+		int currNotPoint = 0;
+		
+		//you will add your not indexes to the notDocIDs you will save a int to keep track of the length
+		//you will have a pointers currPLPoint(the pointer for the list we are removing NOT from)
+		//currNotPoint(the pointer for the list we are saving NOT to)
+		
+		//while the currPLPoint is <= maxDocID && currNotPoint is < notDocIDsMax
+			
+			//if the notDocIDs at currNotPoint is equal to currPLPoint
+		
+				//increment both points
+			
+			//else if notDocIds at currNotPoint is greater than currPLPoint
+		
+				//
+		
+		
+		
 		return null;
 	}
 
@@ -97,6 +156,7 @@ public class PostingsList {
 	 * @return the number of docIDs for this posting list
 	 */
 	public int size() {
+		//this is finished
 		return postingslist.size();
 	}
 
