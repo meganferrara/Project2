@@ -103,36 +103,27 @@ public class PostingsList {
 	 * @return not of the posting list
 	 */
 	public static PostingsList not(PostingsList list, int maxDocID) {
-		// I have an idea for this method but I dont know what kinda of data structure
-		// to use for mapping
+		int currPLPoint = 1;
+		int notPoints = 0; //how many not points that you have to start
 		PostingsList notPL = new PostingsList();
 		int[] notDocIDs = list.getIDs();
 		int notDocIDsMax = notDocIDs.length;
 
-		// So that you can walk through both classes at the same time
-		int currPLPoint = 1;
-		int currNotPoint = 0;
 
-		// you will add your not indexes to the notDocIDs you will save a int to keep
-		// track of the length
-		// you will have a pointers currPLPoint(the pointer for the list we are removing
-		// NOT from)
-		// currNotPoint(the pointer for the list we are saving NOT to)
-
-		// while the currPLPoint is <= maxDocID && currNotPoint is < notDocIDsMax
-		while ((currPLPoint <= maxDocID) && (currNotPoint < notDocIDsMax)) {
-			if (notDocIDs[currNotPoint] == currPLPoint) {
+		// while the currPLPoint is <= maxDocID && notPoints is < notDocIDsMax
+		while ((currPLPoint <= maxDocID) && (notPoints < notDocIDsMax)) {
+			if (notDocIDs[notPoints] == currPLPoint) {
 				// increment both points
 				currPLPoint++;
-				currNotPoint++;
-			} else if (notDocIDs[currNotPoint] > currPLPoint) {
+				notPoints++;
+			} else if (notDocIDs[notPoints] > currPLPoint) {
 				// else if notDocIds at currNotPoint is greater than currPLPoint
 				Integer notIDPoint = new Integer(currPLPoint);
 				notPL.addDoc(notIDPoint);// save this position where not is detected
 				currPLPoint++;
 
 			} else {
-				currNotPoint++;
+				notPoints++;
 			}
 
 		}
