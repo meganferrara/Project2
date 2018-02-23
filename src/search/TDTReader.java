@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 /**
  * A document reader for the TDT corpus.
  * 
- * @author dkauchak
+ * @author Megan Ferrara
  * 
  */
 public class TDTReader implements DocumentReader{

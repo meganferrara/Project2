@@ -5,7 +5,7 @@ package search;
  * in terms of syntax
  * 
  * 
- * @author Megan
+ * @author Megan Ferrara
  *
  * @param <V> value
  */

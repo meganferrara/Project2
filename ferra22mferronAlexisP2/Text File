@@ -1,0 +1,21 @@
+TextFile
+Names: Megan Ferrara & Alexis Ferron
+
+What was the most challenging part of this assignment?
+	For me (Megan) the most challenging part of this assignment was figuring out where to start.
+	I also had trouble figuring out the PostingsList not method but once I understood it was supposed to do it was fine.
+	I also had trouble understanding the index class and didn't have enough time to work on it and understand it due to miscommunication and
+	some incompleted methods I had to make up for.
+	
+How long did it take you?
+	For me (Megan) it took me 15+ hours to get up to the point I did in the assignment.
+	
+When did you start?
+	Thursday 2/15/18 since I was working on HW3 and the research paper summary before diving into the project.
+	
+We used a hashtable for implementing the mapping from terms to postings list. Using lowercasing,
+ how many empty entries are there in the hashtable after you read in the index? Roughly how much 
+ wasted memory does this correspond to?
+ 	(Megan) Since I didn't get to implement the index class fully I would have to take an educated guess that
+ 	there were many empty entries since from my understanding we remove duplicated terms and save their index 
+ 	into a postings list. 

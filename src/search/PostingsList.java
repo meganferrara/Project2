@@ -8,7 +8,7 @@ package search;
  * postings list and to merge postings lists (e.g. AND, OR merge). The lists
  * returned should be docIDs in sorted order.
  * 
- * @author dkauchak
+ * @author Megan Ferrara
  *
  */
 public class PostingsList {
@@ -25,35 +25,17 @@ public class PostingsList {
 	 *            the docID of the document being added
 	 */
 	public void addDoc(int docID) {
-		// Im 95% sure this is finished
+		// Make an integer variable to save the param to
 		Integer docIDInt = new Integer(docID);
-
+		// Make a new node of type integer to then set this integer object to
 		Node<Integer> postingsListNode = new Node<Integer>();
-
 		postingsListNode.setElement(docIDInt);
 
 		if (postingslist.getFirstNode() == null) {
 
 			postingslist.addFirst(postingsListNode);// this adds the postingsListNode to head
 
-		} else if (!postingslist.getFirstNode().hasNext()) { // if the head node does not have a next node
-			Node<Integer> currHead = postingslist.getFirstNode();
-			// compare the current head with the postingsListNode and arrange them in sorted
-			// order
-
-			if (docIDInt.compareTo(currHead.getElement()) < 0) { // docIDInt less than currHead doc ID
-				// put docIDInt Before currHead
-				postingslist.addFirst(postingsListNode);
-
-			} else if (docIDInt.compareTo(currHead.getElement()) == 0) {// If docIDInt equal to currHead docID
-				// ignore
-
-			} else if (docIDInt.compareTo(currHead.getElement()) > 0) { // docIDInt greater than currHead doc ID
-				// put docIDInt after currHead
-				postingslist.addLast(postingsListNode);
-			}
-
-		} else { // if there is more than just the head node we add and sort in the else
+		} else if (!postingslist.isEmpty()) { // if the list is not empty add docs in sorted order
 			// make nodes for head, currentNode, and previousNode all starting at the head
 			Node<Integer> head = postingslist.getFirstNode();
 			Node<Integer> currNode = head;
@@ -80,8 +62,6 @@ public class PostingsList {
 					currNode = currNode.getNext();
 				}
 			}
-			// Since the while loop only checks up to the current node when it has a next
-			// node
 			// This if statement will compare the docIDInt to the tail node
 			if (docIDInt.compareTo(postingslist.getLastNode().getElement()) > 0) {
 				postingslist.addLast(postingsListNode);
@@ -104,13 +84,11 @@ public class PostingsList {
 	 */
 	public static PostingsList not(PostingsList list, int maxDocID) {
 		int currPLPoint = 1;
-		int notPoints = 0; //how many not points that you have to start
+		int notPoints = 0; // how many not points that you have to start
 		PostingsList notPL = new PostingsList();
 		int[] notDocIDs = list.getIDs();
 		int notDocIDsMax = notDocIDs.length;
 
-
-		// while the currPLPoint is <= maxDocID && notPoints is < notDocIDsMax
 		while ((currPLPoint <= maxDocID) && (notPoints < notDocIDsMax)) {
 			if (notDocIDs[notPoints] == currPLPoint) {
 				// increment both points
@@ -121,21 +99,19 @@ public class PostingsList {
 				Integer notIDPoint = new Integer(currPLPoint);
 				notPL.addDoc(notIDPoint);// save this position where not is detected
 				currPLPoint++;
-
 			} else {
 				notPoints++;
 			}
-
 		}
-		//This if statement is used to catch anything that our while loop may have not been able to get to.
-		if(currPLPoint <= maxDocID) {
-			for(int i = currPLPoint; i<maxDocID; i++) {
+		// This if statement is used to catch anything that our while loop may have not
+		// been able to get to.
+		if (currPLPoint <= maxDocID) {
+			for (int i = currPLPoint; i < maxDocID; i++) {
 				Integer newDocID = new Integer(i);
 				notPL.addDoc(newDocID);
 			}
 		}
-
-		//return the not postings list after its been processed
+		// return the not postings list after its been processed
 		return notPL;
 	}
 
@@ -148,7 +124,37 @@ public class PostingsList {
 	 * @return the AND of the postings lists
 	 */
 	public static PostingsList andMerge(PostingsList posting1, PostingsList posting2) {
-		return null;
+		PostingsList andMergePL = new PostingsList();
+		PostingsList post1 = posting1;
+		PostingsList post2 = posting2;
+
+		int[] post1IDs = post1.getIDs();
+		int[] post2IDs = post2.getIDs();
+		int post1Max = post1.size();
+		int post2Max = post2.size();
+		int post1Point = 0;
+		int post2Point = 0;
+
+		// walk through the list until you reach the max of one of the lists
+		// in the while loop add the IDs to the andMergePL if they match
+		// and if they dont match increment the values until they do match or reach the
+		// end
+		while ((post1Point < post1Max) && (post2Point < post2Max)) {
+			// if your posts are at the same id and match then add that index to the list
+			if (post1IDs[post1Point] == post2IDs[post2Point]) {
+				Integer newDocID = new Integer(post1IDs[post1Point]);
+				andMergePL.addDoc(newDocID);
+				post1Point++;
+				post2Point++;
+			} else if (post1IDs[post1Point] < post2IDs[post2Point]) {// if the post1ID is less than post2IDs point then
+																		// increment post 1 point
+				post1Point++;
+			} else {
+				post2Point++;
+			}
+		}
+
+		return andMergePL;
 	}
 
 	/**
@@ -161,7 +167,61 @@ public class PostingsList {
 	 * @return the OR of the postings lists
 	 */
 	public static PostingsList orMerge(PostingsList posting1, PostingsList posting2) {
-		return null;
+		PostingsList orMergePL = new PostingsList();
+		PostingsList post1 = posting1;
+		PostingsList post2 = posting2;
+
+		int[] post1IDs = post1.getIDs();
+		int[] post2IDs = post2.getIDs();
+		int post1Max = post1.size();
+		int post2Max = post2.size();
+		int post1Point = 0;
+		int post2Point = 0;
+
+		// walk through the list until you reach the max of one of the lists
+		// in the while loop add the IDs to the orMergePL if they match
+		// or if the post1 ID at the current position is less than the post2 IDs
+		// position
+		// add the post1 ID to the orMergePL and then add
+		// and if they dont match increment the values until they do match or reach the
+		// end
+		while ((post1Point < post1Max) && (post2Point < post2Max)) {
+			// if your posts are at the same id and match then add that index to the list
+			if (post1IDs[post1Point] == post2IDs[post2Point]) {
+				Integer newDocID = new Integer(post1IDs[post1Point]);
+				orMergePL.addDoc(newDocID);
+				post1Point++;
+				post2Point++;
+			} else if (post1IDs[post1Point] < post2IDs[post2Point]) { // if the pos at post1 is less then you will add
+				Integer newDocID = new Integer(post1IDs[post1Point]);
+				orMergePL.addDoc(newDocID);
+				post1Point++;
+			} else {// you will add the first part of the OR above and in this else statement get
+					// the second part
+				Integer newDocID = new Integer(post2IDs[post2Point]);
+				orMergePL.addDoc(newDocID);
+				post2Point++;
+			}
+		}
+
+		// Make sure you got through both lists completely
+		// (they could be different lengths)
+		if ((post1Point < post1IDs.length) || (post2Point < post2IDs.length)) {
+			if (post1Point < post1IDs.length) {// if the post1 wasnt run through completely
+				for (int i = post1Point; i < post1Max; i++) {
+					Integer newDocID = new Integer(post1IDs[post1Point]);
+					orMergePL.addDoc(newDocID);
+				}
+			} else if (post2Point < post2IDs.length) {
+				for (int i = post2Point; i < post2Max; i++) {
+					Integer newDocID = new Integer(post2IDs[post2Point]);
+					orMergePL.addDoc(newDocID);
+				}
+			}
+
+		}
+
+		return orMergePL;
 	}
 
 	/**
@@ -181,6 +241,25 @@ public class PostingsList {
 	 * @return
 	 */
 	public int[] getIDs() {
-		return null;
+		int plSize = size();
+		int[] postIDs = new int[plSize];
+		int postIDsPoint = 0; // use this pointer to go through the list
+
+		// Made a new node that gets the first node in the postings list
+		Node<Integer> currNode = postingslist.getFirstNode();
+		if (currNode == null) {
+			System.out.println("GetIds Method currNode is null!");
+			return null;
+		} else {
+			postIDs[postIDsPoint] = currNode.getElement();
+			while (currNode.hasNext()) {
+				Integer newNode = currNode.getNext().getElement();
+				postIDs[postIDsPoint] = newNode;
+				// increment the postIDsPoint and the currNode position
+				postIDsPoint++;
+				currNode = currNode.getNext();
+			}
+		}
+		return postIDs;
 	}
 }

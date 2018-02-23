@@ -40,7 +40,7 @@ Release 4
  * word can be provided a character at time (by calling add()), or at once
  * by calling one of the various stem(something) methods.
  * 
- * @author Megan Ferrara & Alexis Ferron
+ * @author Megan Ferrara 
  */
 
 
